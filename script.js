@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         measurementId: "G-D86JB1906G"
     };
 
-    // 初始化 Firebase (使用全局 firebase 对象，无需 import)
+    // 初始化 Firebase (使用全局 firebase 对象, 无需 import)
     firebase.initializeApp(firebaseConfig);
     const firestore = firebase.firestore();
     const auth = firebase.auth();
