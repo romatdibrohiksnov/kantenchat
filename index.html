@@ -1,36 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Static Messaging App</title>
+    <title>Kanten's Secure Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="app-container">
-        <div id="header-container">
-            <h1>Static Chat Room: <span id="room-name"></span></h1>
-            <div id="auth-container">
-                <span id="user-info" style="display: none;"></span>
-                <button id="login-button">Sign in with Google</button>
-                <button id="logout-button" style="display: none;">Sign Out</button>
+    <!-- 认证容器 -->
+    <div id="auth-container">
+        <div id="auth-form-wrapper">
+            <!-- 登录表单 -->
+            <form id="login-form">
+                <h2>登录</h2>
+                <input type="email" id="login-email" placeholder="邮箱" required>
+                <input type="password" id="login-password" placeholder="密码" required>
+                <button type="submit">登录</button>
+                <p class="form-switch">还没有账户？ <a href="#" id="show-register">立即注册</a></p>
+            </form>
+            <!-- 注册表单 -->
+            <form id="register-form" style="display: none;">
+                <h2>注册</h2>
+                <input type="text" id="register-name" placeholder="显示名称" required>
+                <input type="email" id="register-email" placeholder="邮箱" required>
+                <input type="password" id="register-password" placeholder="密码 (至少6位)" required>
+                <button type="submit">注册</button>
+                <p class="form-switch">已有账户？ <a href="#" id="show-login">返回登录</a></p>
+            </form>
+            <p id="auth-error"></p>
+        </div>
+    </div>
+
+    <!-- 聊天应用容器 (默认隐藏) -->
+    <div id="app-container" style="display: none;">
+        <div class="header">
+            <h1 id="room-title">Chat Room</h1>
+            <div class="user-area">
+                <span id="user-display-name"></span>
+                <button id="logout-button">登出</button>
             </div>
         </div>
         <div id="room-selection">
-            Join a room:
-            <a href="?room=general">#general</a> |
-            <a href="?room=random">#random</a> |
+            <a href="?room=general">#general</a>
+            <a href="?room=random">#random</a>
             <a href="?room=tech">#tech</a>
         </div>
-        <div id="messages-container">
-            <!-- 消息会动态地添加到这里 -->
-        </div>
-        <div id="input-container" style="display: none;">
-            <input type="text" id="username-input" placeholder="你的名字..." disabled>
-            <input type="text" id="message-input" placeholder="输入消息...">
-            <button id="send-button">发送</button>
+        <div id="messages-container"></div>
+        <div id="input-area">
+            <div class="message-input-wrapper">
+                <input type="text" id="message-input" placeholder="输入消息...">
+                <button id="send-button" title="发送">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24"
+                        height="24">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 
