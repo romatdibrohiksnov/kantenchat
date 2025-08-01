@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static Messaging App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <h1>Static Chat Room</h1>
+        <div id="messages-container">
+            <!-- 消息会动态地添加到这里 -->
+        </div>
+        <div id="input-container">
+            <input type="text" id="username-input" placeholder="输入你的名字...">
+            <input type="text" id="message-input" placeholder="输入消息...">
+            <button id="send-button">发送</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK 脚本 -->
+    <!-- 必须引入这些脚本才能与 Firebase 通信 -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <!-- 你的应用逻辑 -->
+    <script src="script.js"></script>
+</body>
+</html>
