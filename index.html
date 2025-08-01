@@ -1,30 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Static Messaging App</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div id="app-container">
-        <h1>Static Chat Room</h1>
+        <div id="header-container">
+            <h1>Static Chat Room: <span id="room-name"></span></h1>
+            <div id="auth-container">
+                <span id="user-info" style="display: none;"></span>
+                <button id="login-button">Sign in with Google</button>
+                <button id="logout-button" style="display: none;">Sign Out</button>
+            </div>
+        </div>
+        <div id="room-selection">
+            Join a room:
+            <a href="?room=general">#general</a> |
+            <a href="?room=random">#random</a> |
+            <a href="?room=tech">#tech</a>
+        </div>
         <div id="messages-container">
             <!-- 消息会动态地添加到这里 -->
         </div>
-        <div id="input-container">
-            <input type="text" id="username-input" placeholder="输入你的名字...">
+        <div id="input-container" style="display: none;">
+            <input type="text" id="username-input" placeholder="你的名字..." disabled>
             <input type="text" id="message-input" placeholder="输入消息...">
             <button id="send-button">发送</button>
         </div>
     </div>
 
     <!-- Firebase SDK 脚本 -->
-    <!-- 必须引入这些脚本才能与 Firebase 通信 -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
     <!-- 你的应用逻辑 -->
     <script src="script.js"></script>
 </body>
+
 </html>
