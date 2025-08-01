@@ -1,9 +1,206 @@
-/* ... (保留之前的所有样式) ... */
+:root {
+    --bg-color: #121212;
+    --surface-color: #1e1e1e;
+    --primary-color: #bb86fc;
+    --secondary-color: #03dac6;
+    --text-color: #e0e0e0;
+    --text-secondary-color: #a0a0a0;
+    --user-bubble-color: #3700b3;
+    --other-bubble-color: #333333;
+}
 
-/* --- 新增认证表单样式 --- */
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#app-container {
+    width: 95%;
+    max-width: 600px;
+    height: 95vh;
+    background-color: var(--surface-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #444;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--primary-color);
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#room-selection {
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid #444;
+}
+
+#room-selection a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+#room-selection a:hover {
+    color: white;
+}
+
+#messages-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message-bubble {
+    max-width: 75%;
+    padding: 12px 18px;
+    border-radius: 20px;
+    word-wrap: break-word;
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.message-bubble .username {
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.message-bubble .timestamp {
+    font-size: 0.75em;
+    color: var(--text-secondary-color);
+    margin-top: 5px;
+    text-align: right;
+    display: block;
+}
+
+.user {
+    background: linear-gradient(45deg, var(--user-bubble-color), var(--primary-color));
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.other {
+    background-color: var(--other-bubble-color);
+    color: var(--text-color);
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.other .username {
+    color: var(--secondary-color);
+}
+
+.delete-btn {
+    position: absolute;
+    top: -8px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user .delete-btn {
+    right: -8px;
+}
+
+.other .delete-btn {
+    left: -8px;
+}
+
+.message-bubble:hover .delete-btn {
+    opacity: 1;
+}
+
+#input-area {
+    padding: 15px;
+    border-top: 1px solid #444;
+}
+
+.message-input-wrapper {
+    position: relative;
+    display: flex;
+}
+
+#message-input {
+    width: 100%;
+    padding: 12px 50px 12px 20px;
+    border: 1px solid #555;
+    border-radius: 25px;
+    background-color: #444;
+    color: var(--text-color);
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+#send-button {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+#send-button:hover {
+    color: white;
+}
+
+/* --- 认证表单样式 --- */
 #auth-container {
     display: flex;
-    /* 默认显示 */
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -73,11 +270,4 @@
     text-align: center;
     margin-top: 15px;
     min-height: 1.2em;
-}
-
-/* 调整 header 内的用户区域 */
-.user-area {
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
