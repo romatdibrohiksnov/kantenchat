@@ -9,12 +9,12 @@ const firebaseConfig = {
     measurementId: "G-D86JB1906G"
 };
 
-// 初始化 Firebase (使用兼容性版本)
+// 使用兼容性语法初始化 Firebase
 firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 
-// 确保在整个 DOM 加载完毕后才执行脚本
+// 确保在整个 DOM 加载完毕后才执行我们的代码
 document.addEventListener("DOMContentLoaded", () => {
 
     // --- 获取 HTML 元素的引用 ---
@@ -40,12 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
     roomNameSpan.textContent = `Chat Room: #${roomName}`;
     const messagesCollection = firestore.collection('rooms').doc(roomName).collection('messages').orderBy('timestamp');
 
-    // --- 清除错误信息 ---
+    // --- 认证功能 ---
     function clearAuthError() {
         authError.textContent = '';
     }
 
-    // --- 表单切换逻辑 ---
     showRegisterLink.addEventListener('click', (e) => {
         e.preventDefault();
         loginForm.style.display = 'none';
@@ -60,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
         clearAuthError();
     });
 
-    // --- 认证逻辑 ---
     registerForm.addEventListener('submit', (e) => {
         e.preventDefault();
         clearAuthError();
@@ -85,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     logoutButton.addEventListener('click', () => auth.signOut());
 
-    // --- 消息逻辑 ---
+    // --- 消息功能 ---
     function sendMessage() {
         const messageText = messageInput.value.trim();
         const currentUser = auth.currentUser;
@@ -110,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- 实时消息监听与渲染 ---
+    // --- 核心逻辑：消息监听与渲染 ---
     let unsubscribe;
     function listenForMessages() {
         if (unsubscribe) unsubscribe();
@@ -165,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 认证状态机 ---
+    // --- 认证状态机：控制UI显示 ---
     auth.onAuthStateChanged(user => {
         if (user) {
             authContainer.style.display = 'none';
