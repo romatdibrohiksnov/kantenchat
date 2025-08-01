@@ -1,11 +1,7 @@
 // 确保在整个 DOM 加载完毕后才执行脚本
 document.addEventListener("DOMContentLoaded", () => {
-    import { initializeApp } from "firebase/app";
-    import { getAnalytics } from "firebase/analytics";
 
-
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    // 你的 Firebase 应用配置 (这是你提供的，确保它正确)
     const firebaseConfig = {
         apiKey: "AIzaSyAeBUltOgHTifePQXWkIrG0gkY6hV0h_-o",
         authDomain: "kantenchat.firebaseapp.com",
@@ -16,10 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         measurementId: "G-D86JB1906G"
     };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    // 初始化 Firebase
+    // 初始化 Firebase (使用全局 firebase 对象，无需 import)
     firebase.initializeApp(firebaseConfig);
     const firestore = firebase.firestore();
     const auth = firebase.auth();
