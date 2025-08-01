@@ -1,21 +1,21 @@
+// 你的 Firebase 应用配置
+const firebaseConfig = {
+    apiKey: "AIzaSyAeBUltOgHTifePQXWkIrG0gkY6hV0h_-o",
+    authDomain: "kantenchat.firebaseapp.com",
+    projectId: "kantenchat",
+    storageBucket: "kantenchat.firebasestorage.app",
+    messagingSenderId: "49055453642",
+    appId: "1:49055453642:web:bc0133d67e8dbb88c63f33",
+    measurementId: "G-D86JB1906G"
+};
+
+// 初始化 Firebase (使用兼容性版本)
+firebase.initializeApp(firebaseConfig);
+const firestore = firebase.firestore();
+const auth = firebase.auth();
+
 // 确保在整个 DOM 加载完毕后才执行脚本
 document.addEventListener("DOMContentLoaded", () => {
-
-    // 你的 Firebase 应用配置 (这是你提供的，确保它正确)
-    const firebaseConfig = {
-        apiKey: "AIzaSyAeBUltOgHTifePQXWkIrG0gkY6hV0h_-o",
-        authDomain: "kantenchat.firebaseapp.com",
-        projectId: "kantenchat",
-        storageBucket: "kantenchat.firebasestorage.app",
-        messagingSenderId: "49055453642",
-        appId: "1:49055453642:web:bc0133d67e8dbb88c63f33",
-        measurementId: "G-D86JB1906G"
-    };
-
-    // 初始化 Firebase (使用全局 firebase 对象, 无需 import)
-    firebase.initializeApp(firebaseConfig);
-    const firestore = firebase.firestore();
-    const auth = firebase.auth();
 
     // --- 获取 HTML 元素的引用 ---
     const authContainer = document.getElementById('auth-container');
@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // --- 认证逻辑 ---
-    // 注册
     registerForm.addEventListener('submit', (e) => {
         e.preventDefault();
         clearAuthError();
@@ -70,15 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const password = registerForm['register-password'].value;
 
         auth.createUserWithEmailAndPassword(email, password)
-            .then(userCredential => {
-                return userCredential.user.updateProfile({ displayName: displayName });
-            })
-            .catch(error => {
-                authError.textContent = error.message;
-            });
+            .then(userCredential => userCredential.user.updateProfile({ displayName: displayName }))
+            .catch(error => { authError.textContent = error.message; });
     });
 
-    // 登录
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         clearAuthError();
@@ -86,30 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const password = loginForm['login-password'].value;
 
         auth.signInWithEmailAndPassword(email, password)
-            .catch(error => {
-                authError.textContent = error.message;
-            });
+            .catch(error => { authError.textContent = error.message; });
     });
 
-    // 登出
-    logoutButton.addEventListener('click', () => {
-        auth.signOut();
-    });
-
-    // 监听认证状态变化
-    let unsubscribe; // 用于取消消息监听
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            authContainer.style.display = 'none';
-            appContainer.style.display = 'flex';
-            userDisplayName.textContent = user.displayName;
-            listenForMessages();
-        } else {
-            authContainer.style.display = 'flex';
-            appContainer.style.display = 'none';
-            if (unsubscribe) unsubscribe(); // 用户登出后停止监听消息
-        }
-    });
+    logoutButton.addEventListener('click', () => auth.signOut());
 
     // --- 消息逻辑 ---
     function sendMessage() {
@@ -123,9 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 uid: currentUser.uid,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             })
-                .then(() => {
-                    messageInput.value = '';
-                })
+                .then(() => { messageInput.value = ''; })
                 .catch((error) => console.error("Error sending message: ", error));
         }
     }
@@ -138,7 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 实时消息监听与渲染
+    // --- 实时消息监听与渲染 ---
+    let unsubscribe;
     function listenForMessages() {
         if (unsubscribe) unsubscribe();
 
@@ -167,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     timestampElement.textContent = message.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 }
 
-                // 添加删除按钮的逻辑
                 if (isAdmin || (currentUser && message.uid === currentUser.uid)) {
                     const deleteBtn = document.createElement('button');
                     deleteBtn.className = 'delete-btn';
@@ -192,4 +164,18 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error listening for messages: ", error);
         });
     }
+
+    // --- 认证状态机 ---
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            authContainer.style.display = 'none';
+            appContainer.style.display = 'flex';
+            userDisplayName.textContent = user.displayName;
+            listenForMessages();
+        } else {
+            authContainer.style.display = 'flex';
+            appContainer.style.display = 'none';
+            if (unsubscribe) unsubscribe();
+        }
+    });
 });
